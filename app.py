@@ -1,11 +1,13 @@
 from flask import Flask, render_template, redirect, url_for , request, flash
 from flask_login import LoginManager, UserMixin, login_user, login_required, login_user, current_user
 
-app = Flaks(__name__)
+app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 
-login_manager = Loginmanager()
+login_manager = LoginManager()
 login_manager.init_app(app)
+
+
 login_manager.login_view = 'login'
 
 users = {'user1':{'password':'password123'}}
@@ -18,7 +20,7 @@ def user_loader(user_id):
     return User(user_id) if user_id in users else NamedNodeMap
 
 @app.route('/')
-@login_requried
+@login_required
 def home():
     return render_template('home.html', name=current_user.id)
 
@@ -28,7 +30,7 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
 
-        if username in users and users[username]['password'] == password
+        if username in users and users[username]['password'] == password:
             user = User(username)
             login_user(user)
             return redirect(url_for('home'))
